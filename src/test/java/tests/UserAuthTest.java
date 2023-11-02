@@ -12,10 +12,22 @@ import lib.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import org.junit.jupiter.api.DisplayName;
+
+import lib.ApiCoreRequests;
+
+
+
+@Epic("Authorization cases")
+@Feature("Authorization")
 public class UserAuthTest extends BaseTestCase {
     String cookie;
     String header;
     int userIdOnAuth;
+    private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests ();
 
     @BeforeEach
     public void loginUser() {
@@ -35,6 +47,8 @@ public class UserAuthTest extends BaseTestCase {
     }
 
     @Test
+    @Description("This test successfully authorize user by email and password")
+    @DisplayName("Test positive auth user")
     public void testAuthUser() {
         JsonPath responseCheckAuth = RestAssured
                 .given()
