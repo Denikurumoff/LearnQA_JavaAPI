@@ -84,4 +84,13 @@ public class ApiCoreRequests {
                 .post("https://playground.learnqa.ru/api/user/")
                 .andReturn();
     }
+
+    public static Response getUserDataForAnotherUser(String authToken, int userId) {
+        return RestAssured.given()
+                .header("x-csrf-token", authToken)
+                .cookie("auth_sid", authToken)
+                .get("https://playground.learnga.ru/api/user/" + userId)
+                .andReturn();
+    }
+}
 }

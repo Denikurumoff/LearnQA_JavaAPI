@@ -13,6 +13,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.DisplayName;
+import lib.ApiCoreRequests;
 
 public class UserGetTest extends BaseTestCase {
     @Test
@@ -54,4 +55,33 @@ public class UserGetTest extends BaseTestCase {
 
 
     }
+
+    @Test
+    @Description("Получение данных другого пользователя после аутентификации")
+    @DisplayName("Get Another User Data After Authentication")
+    public void testGetAnotherUserDataAfterAuth() {
+        // Подготавливает данные для аутентификации (email и пароль)
+        Map<String, String> authData = new HashMap<>();
+        authData.put("email", "vinkotov@example.com");
+        authData.put("password", "1234");
+
+        // Выполняет POST-запрос для аутентификации и получения токенов
+        Response responseGetAuth = RestAssured.given()
+                .body(authData)
+                .post("https://playground.Learnqa.ru/api/user/login")
+                .andReturn();
+
+        String authToken = this.getHeader(responseGetAuth, "x-csrf-token");
+
+        // Выполняет GET-запрос для получения данных другого пользователя
+        int targetUserId = 2; // Замените на ID другого пользователя
+        Response responseUserData = apiCoreRequests.getUserDataForAnotherUser(authToken, targetUserId);
+
+        // Проверяет, что в ответе присутствует только поле "username"
+        Assertions.assertJsonHasField(responseUserData, "username");
+        Assertions.assertJsonHasNotField(responseUserData, "firstName");
+        Assertions.assertJsonHasNotField(responseUserData, "lastName");
+        Assertions.assertJsonHasNotField(responseUserData, "email");
+    }
+}
 }
