@@ -1,19 +1,18 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import lib.ApiCoreRequests;
 import lib.Assertions;
-import lib.BaseTestCase;
+import lib.DataGenerator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import java.util.HashMap;
 import java.util.Map;
-
 
 @Epic("User Data Deletion")
 @Feature("Delete User Data")
@@ -34,6 +33,7 @@ public class UserDeleteTest extends BaseTestCase {
     @Test
     @Description("Попытка удаления пользователя без прав на удаление")
     @DisplayName("Attempt to Delete User Without Permission")
+    @Story("Negative Cases")
     public void testDeleteUserWithoutPermission() {
         // Подготавливает данные для аутентификации (email и пароль)
         Map<String, String> authData = new HashMap<>();
@@ -54,6 +54,7 @@ public class UserDeleteTest extends BaseTestCase {
     @Test
     @Description("Успешное удаление пользователя и проверка отсутствия данных пользователя")
     @DisplayName("Successful User Deletion and Verification of User Data Absence")
+    @Story("Positive Cases")
     public void testSuccessfulUserDeletion() {
         // Создаем нового пользователя
         Map<String, String> userData = DataGenerator.getRegistrationData();
@@ -84,6 +85,7 @@ public class UserDeleteTest extends BaseTestCase {
     @Test
     @Description("Попытка удаления пользователя другим пользователем")
     @DisplayName("Attempt to Delete User by Another User")
+    @Story("Negative Cases")
     public void testDeleteUserByAnotherUser() {
         // Подготавливает данные для аутентификации (email и пароль)
         Map<String, String> authData = new HashMap<>();
