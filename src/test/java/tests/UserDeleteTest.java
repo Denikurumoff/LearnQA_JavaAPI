@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import java.util.HashMap;
 import java.util.Map;
+import lib.BaseTestCase;
+import lib.ApiCoreRequests;
 
 @Epic("User Data Deletion")
 @Feature("Delete User Data")
